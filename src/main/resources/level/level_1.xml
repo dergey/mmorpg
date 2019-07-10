@@ -1,0 +1,45 @@
+<level>
+    <id>level_1</id>
+    <title>Level 1</title>
+    <width>200</width>
+    <height>200</height>
+    <sprites>
+        <sprite>
+            <id>rock_corner_top_left</id>
+            <path>sprite/base_out_atlas.png</path>
+            <x>0</x>
+            <y>0</y>
+            <width>32</width>
+            <height>32</height>
+        </sprite>
+        <sprite>
+            <id>rock_top</id>
+            <path>sprite/base_out_atlas.png</path>
+            <x>0</x>
+            <y>32</y>
+            <width>32</width>
+            <height>32</height>
+        </sprite>
+        <!--...-->
+    </sprites>
+    <background>
+        <path>sprite/background/grass.png</path>
+    </background>
+    <landscape>
+        <object>
+            <levelX>0</levelX>
+            <levelY>0</levelY>
+            <width>32</width>
+            <height>32</height>
+            <spriteId>rock_corner_top_left</spriteId>
+        </object>
+        <object>
+            <levelX>0</levelX>
+            <levelY>1</levelY>
+            <width>32</width>
+            <height>32</height>
+            <spriteId>rock_top</spriteId>
+        </object>
+        <!--...-->
+    </landscape>
+</level>
