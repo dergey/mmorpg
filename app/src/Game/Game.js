@@ -33,7 +33,7 @@ class Game extends Component {
             <div>
                 <Stage width={window.innerWidth} height={window.innerHeight}>
                     <Layer>
-                        <LevelPainter level={this.state.level}/>
+                        <LevelPainter level={this.state.level} player={this.state.player}/>
                     </Layer>
                 </Stage>
             </div>

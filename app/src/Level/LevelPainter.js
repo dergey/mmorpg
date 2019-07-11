@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Group, Rect, Stage, Text} from "react-konva";
 import LevelObject from "../LevelObject/LevelObject";
+import Life from "../Life/Life";
 
 const ARROW_LEFT_KEY = 37;
 const ARROW_UP_KEY = 38;
@@ -44,8 +45,8 @@ class LevelPainter extends Component {
                 type: baseSprite.type,
                 x: baseSprite.x,
                 y: baseSprite.y,
-                spriteWidth: baseSprite.spriteWidth,
-                spriteHeight: baseSprite.spriteHeight,
+                width: baseSprite.width,
+                height: baseSprite.height,
                 image: this.backgroundImage
             },
             isLoading: false
@@ -57,30 +58,28 @@ class LevelPainter extends Component {
         if (e.keyCode === ARROW_LEFT_KEY) {
             if (viewport.x > 0) {
                 viewport.x = viewport.x - 8;
-            } else {
-                viewport.x = 0;
+                this.setState({viewport: viewport});
+                this.imageNode.draw();
             }
         } else if (e.keyCode === ARROW_UP_KEY) {
             if (viewport.y > 0) {
                 viewport.y = viewport.y - 8;
-            } else {
-                viewport.y = 0;
+                this.setState({viewport: viewport});
+                this.imageNode.draw();
             }
         } else if (e.keyCode === ARROW_RIGHT_KEY) {
             if (viewport.x < this.state.levelWidth) {
                 viewport.x = viewport.x + 8;
-            } else {
-                viewport.x = this.state.levelWidth;
+                this.setState({viewport: viewport});
+                this.imageNode.draw();
             }
         } else if (e.keyCode === ARROW_DOWN_KEY) {
             if (viewport.y < this.state.levelHeight) {
                 viewport.y = viewport.y + 8;
-            } else {
-                viewport.y = this.state.levelHeight;
+                this.setState({viewport: viewport});
+                this.imageNode.draw();
             }
         }
-        this.setState({viewport: viewport});
-        this.imageNode.draw();
     }
 
     render() {
@@ -92,9 +91,10 @@ class LevelPainter extends Component {
         const objectsList = this.props.level.objects.map((object, index) => {
             return (<LevelObject key={index} levelObject={object} viewport={this.state.viewport}/>)
         });
+        objectsList.push(<Life key={this.props.player.name} life={this.props.player} viewport={this.state.viewport}/>);
 
-        const spriteOffsetX = this.state.viewport.x % this.state.baseSprite.spriteWidth;
-        const spriteOffsetY = this.state.viewport.y % this.state.baseSprite.spriteHeight;
+        const spriteOffsetX = this.state.viewport.x % this.state.baseSprite.width;
+        const spriteOffsetY = this.state.viewport.y % this.state.baseSprite.height;
 
         return (
             <Group>

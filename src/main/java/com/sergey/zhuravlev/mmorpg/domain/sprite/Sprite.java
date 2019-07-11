@@ -26,18 +26,23 @@ public abstract class Sprite {
 
     }
 
+    public static int DEFAULT_SPRITE_WIDTH = 32;
+    public static int DEFAULT_SPRITE_HEIGHT = 32;
+
     protected SpriteType type;
     protected int x;
     protected int y;
-    protected static int SPRITE_WIDTH = 32;
-    protected static int SPRITE_HEIGHT = 32;
+    protected int width;
+    protected int height;
     protected String path;
 
-    public int getSpriteWidth() {
-        return SPRITE_WIDTH;
+    public Sprite(SpriteType type, int x, int y, String path) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.width = DEFAULT_SPRITE_WIDTH;
+        this.height = DEFAULT_SPRITE_HEIGHT;
+        this.path = path;
     }
 
-    public int getSpriteHeight() {
-        return SPRITE_WIDTH;
-    }
 }

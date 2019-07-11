@@ -7,6 +7,7 @@ public class PlayerConverter {
 
     public static PlayerDto getPlayerDto(Player player) {
         return new PlayerDto(
+                player.getName(),
                 player.getLevel(),
                 player.getType(),
                 player.getHealsPointMax(),

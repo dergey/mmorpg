@@ -2,6 +2,7 @@ package com.sergey.zhuravlev.mmorpg.domain;
 
 import com.sergey.zhuravlev.mmorpg.converter.SpriteJpaConverter;
 import com.sergey.zhuravlev.mmorpg.domain.sprite.Sprite;
+import com.sergey.zhuravlev.mmorpg.enums.LevelObjectType;
 import com.sergey.zhuravlev.mmorpg.enums.PlayerType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,9 @@ public class Player implements Life, LevelObject {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "current_level_title")
     private String currentLevelTitle;
@@ -68,4 +72,10 @@ public class Player implements Life, LevelObject {
     @Convert(converter = SpriteJpaConverter.class)
     @Column(name = "sprite")
     private Sprite sprite;
+
+    @Transient
+    public LevelObjectType getObjectType() {
+        return LevelObjectType.MAIN_STAGE;
+    }
+
 }

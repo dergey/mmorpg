@@ -1,6 +1,7 @@
 package com.sergey.zhuravlev.mmorpg.domain;
 
 import com.sergey.zhuravlev.mmorpg.domain.sprite.Sprite;
+import com.sergey.zhuravlev.mmorpg.enums.LevelObjectType;
 
 public interface LevelObject {
 
@@ -8,6 +9,7 @@ public interface LevelObject {
     Integer getY();
     Integer getWidth();
     Integer getHeight();
+    LevelObjectType getObjectType();
     boolean isPermeable();
     Sprite getSprite();
 

@@ -26,6 +26,7 @@ public class PlayerService {
         Player player = playerRepository.getById(1L);
         if (player == null) {
             player = new Player(1L,
+                    "player 1",
                     startLevel.getTitle(),
                     1,
                     PlayerType.WARRIOR,

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {Image, Text} from "react-konva";
+import {Group, Image, Text} from "react-konva";
 
-class LevelObject extends Component {
+class Life extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
-            sprite: this.props.levelObject.sprite
+            sprite: this.props.life.sprite
         };
         this.loadSprite = this.loadSprite.bind(this);
     }
@@ -43,29 +43,32 @@ class LevelObject extends Component {
 
     render() {
         if (this.state.isLoading) {
-            return <Text x={0} y={0} text={"Loading..."}/>;
+            return <Text x={0} y={0} text={"Loading..."} fill={"green"}/>;
         }
 
-        const objectX = this.props.levelObject.x - this.props.viewport.x;
-        const objectY = this.props.levelObject.y - this.props.viewport.y;
+        const lifeX = this.props.life.x - this.props.viewport.x;
+        const lifeY = this.props.life.y - this.props.viewport.y;
 
         return (
-            <Image
-                x={objectX}
-                y={objectY}
-                cropX={this.state.sprite.x}
-                cropY={this.state.sprite.y}
-                cropWidth={this.state.sprite.width}
-                cropHeight={this.state.sprite.height}
-                width={this.props.levelObject.width}
-                height={this.props.levelObject.height}
-                image={this.state.sprite.image}
-                ref={node => {
-                    this.imageNode = node;
-                }}
-            />
+            <Group>
+                <Text x={lifeX} y={lifeY - 12} text={this.props.life.name} fill={"green"}/>
+                <Image
+                    x={lifeX}
+                    y={lifeY}
+                    cropX={this.state.sprite.x}
+                    cropY={this.state.sprite.y}
+                    cropWidth={this.state.sprite.width}
+                    cropHeight={this.state.sprite.height}
+                    width={this.props.life.width}
+                    height={this.props.life.height}
+                    image={this.state.sprite.image}
+                    ref={node => {
+                        this.imageNode = node;
+                    }}
+                />
+            </Group>
         );
     }
 }
 
-export default LevelObject;
+export default Life;

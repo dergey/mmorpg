@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PlayerDto {
 
+    private String name;
     private int level;
     private PlayerType type;
     private int healsPointMax;
