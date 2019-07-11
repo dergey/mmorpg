@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Image, Text} from "react-konva";
+import {loadSprite} from "../helpers/sprites-loader";
 
 class LevelObject extends Component {
 
@@ -9,37 +10,25 @@ class LevelObject extends Component {
             isLoading: true,
             sprite: this.props.levelObject.sprite
         };
-        this.loadSprite = this.loadSprite.bind(this);
     }
 
     componentDidMount() {
-        this.loadSprite();
+        loadSprite(this.state.sprite.path)
+            .then((image) => {
+                const sprite = this.state.sprite;
+                this.setState({
+                    sprite: {
+                        type: sprite.type,
+                        x: sprite.x,
+                        y: sprite.y,
+                        width: sprite.width,
+                        height: sprite.height,
+                        image: image
+                    },
+                    isLoading: false
+                });
+            });
     }
-
-    componentWillUnmount() {
-        this.spriteImage.removeEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    loadSprite() {
-        this.spriteImage = new window.Image();
-        this.spriteImage.src = this.state.sprite.path;
-        this.spriteImage.addEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    handleBackgroundImageLoad = () => {
-        const sprite = this.state.sprite;
-        this.setState({
-            sprite: {
-                type: sprite.type,
-                x: sprite.x,
-                y: sprite.y,
-                width: sprite.width,
-                height: sprite.height,
-                image: this.spriteImage
-            },
-            isLoading: false
-        });
-    };
 
     render() {
         if (this.state.isLoading) {

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Group, Image, Text} from "react-konva";
+import {loadSprite} from "../helpers/sprites-loader";
 
 class Life extends Component {
 
@@ -9,45 +10,33 @@ class Life extends Component {
             isLoading: true,
             sprite: this.props.life.sprite
         };
-        this.loadSprite = this.loadSprite.bind(this);
     }
 
     componentDidMount() {
-        this.loadSprite();
+        loadSprite(this.state.sprite.path)
+            .then((image) => {
+                const sprite = this.state.sprite;
+                this.setState({
+                    sprite: {
+                        type: sprite.type,
+                        x: sprite.x,
+                        y: sprite.y,
+                        width: sprite.width,
+                        height: sprite.height,
+                        image: image
+                    },
+                    isLoading: false
+                });
+            });
     }
-
-    componentWillUnmount() {
-        this.spriteImage.removeEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    loadSprite() {
-        this.spriteImage = new window.Image();
-        this.spriteImage.src = this.state.sprite.path;
-        this.spriteImage.addEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    handleBackgroundImageLoad = () => {
-        const sprite = this.state.sprite;
-        this.setState({
-            sprite: {
-                type: sprite.type,
-                x: sprite.x,
-                y: sprite.y,
-                width: sprite.width,
-                height: sprite.height,
-                image: this.spriteImage
-            },
-            isLoading: false
-        });
-    };
 
     render() {
-        if (this.state.isLoading) {
-            return <Text x={0} y={0} text={"Loading..."} fill={"green"}/>;
-        }
-
         const lifeX = this.props.life.x - this.props.viewport.x;
         const lifeY = this.props.life.y - this.props.viewport.y;
+
+        if (this.state.isLoading) {
+            return <Text x={lifeX} y={lifeY} text={"Loading..."} fill={"green"}/>;
+        }
 
         return (
             <Group>

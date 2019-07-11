@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Group, Rect, Stage, Text} from "react-konva";
 import LevelObject from "../LevelObject/LevelObject";
 import Life from "../Life/Life";
+import {loadSprite} from "../helpers/sprites-loader";
 
 const ARROW_LEFT_KEY = 37;
 const ARROW_UP_KEY = 38;
@@ -19,39 +20,27 @@ class LevelPainter extends Component {
             levelWidth: this.props.level.width * this.props.level.levelPointWidth,
             levelHeight: this.props.level.height * this.props.level.levelPointHeight
         };
-        this.loadBackground = this.loadBackground.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     componentDidMount() {
+        loadSprite(this.state.baseSprite.path)
+            .then((image) => {
+                const baseSprite = this.state.baseSprite;
+                this.setState({
+                    baseSprite: {
+                        type: baseSprite.type,
+                        x: baseSprite.x,
+                        y: baseSprite.y,
+                        width: baseSprite.width,
+                        height: baseSprite.height,
+                        image: image
+                    },
+                    isLoading: false
+                });
+            });
         document.addEventListener("keydown", this.handleKeyDown, false);
-        this.loadBackground();
     }
-
-    componentWillUnmount() {
-        this.backgroundImage.removeEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    loadBackground() {
-        this.backgroundImage = new window.Image();
-        this.backgroundImage.src = this.props.level.baseSprite.path;
-        this.backgroundImage.addEventListener('load', this.handleBackgroundImageLoad);
-    }
-
-    handleBackgroundImageLoad = () => {
-        const baseSprite = this.state.baseSprite;
-        this.setState({
-            baseSprite: {
-                type: baseSprite.type,
-                x: baseSprite.x,
-                y: baseSprite.y,
-                width: baseSprite.width,
-                height: baseSprite.height,
-                image: this.backgroundImage
-            },
-            isLoading: false
-        });
-    };
 
     handleKeyDown(e) {
         const viewport = this.state.viewport;
